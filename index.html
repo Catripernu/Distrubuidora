@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Confirmación y envío a PHP</title>
+</head>
+<body>
+  <button onclick="eliminarElemento(12)">Enviar</button>
+</body>
+</html>
+
+
+<script>
+function eliminarElemento(id) {
+  if (confirm("¿Estás seguro de eliminar?")) {
+    var xhr = new XMLHttpRequest();
+    var url = "archivo.php?delet="+ id;
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        var response = xhr.responseText;
+        if (response === "success") {
+          alert("El cliente se elimino correctamente.");
+          location.reload();
+        } else {
+          alert(response);
+        }
+      }
+    };
+
+    xhr.send();
+  }
+}
+
+
+
+</script>
