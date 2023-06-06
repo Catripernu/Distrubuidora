@@ -10,20 +10,35 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ ?>
         padding:20px 0;
         justify-content: center;
         align-items: center;
+        flex-direction:column;
+    } 
+    & .contenido a {
+        width: 100%;
+        margin:2px 0;
+        transition: ease 1s;
+        padding:10px 0;
+    }
+    & .pendientes__lista {    
+        display:flex;
+        align-items: center;
+        justify-content:space-around;
     }
 }
-.pendientes__lista {
-    margin:10px 0;
-  display:flex;
-  align-items: center;
-  justify-content:space-around;
-  padding:10px;
-  & .telefono {display:none}
-}
-.back_orange {background-color: orange;}
+
+
+.a_pendientes {background-color: orange}
+.a_pendientes:hover {background: orangered}
 .hover_sha_orange:hover{box-shadow: 0 0 5px orange}
 .hover_sha_green:hover{box-shadow: 0 0 5px green}
 .hover_sha_red:hover{box-shadow: 0 0 5px red}
+@media (min-width: 700px){
+    #pedidos {
+        & button {padding:10px 20px}
+        & .contenido a {border-radius:10px}
+    }
+}
+
+
 </style>
 <body>
     <div id="contenido">
