@@ -1,15 +1,17 @@
 <?php
 include("../../sql/config.php");
 include("../../sql/consultas.php");
+include("../../php/functions_admin.php");
+include("../../php/functions_users.php");
 function obtener(){
-$resultado = $GLOBALS['conexion']->query("SELECT * FROM ventascliente WHERE estado = 0");
+$resultado = $GLOBALS['conexion']->query("SELECT * FROM ventascliente WHERE estado = 0 ORDER BY fecha desc");
 if($resultado->rowCount()){
     foreach($resultado->fetchAll(PDO::FETCH_ASSOC) as $dato){
-        $tabla .= '<a href="#" class="a_pendientes"><div class="pendientes__lista">
-                        <div>'.$dato['id_usuario'].'</div>
+        $tabla .= '<a href="#" class="a_pendientes">
+                        <div>'.cliente($dato['id_usuario'],$dato['ID']).'</div>
+                        <div>'.formato_precio($dato['total']).'</div>
                         <div>'.formato_fecha($dato['fecha']).'</div>
-                        <div>$1000.00</div>
-                    </div></a>';
+                    </a>';
     }
     return $tabla;
 }

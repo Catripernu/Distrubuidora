@@ -2,7 +2,8 @@
 session_start();
 include("../php/includes_user.php");
 include("../php/functions_admin.php");
-if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ ?>
+if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ 
+    $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1; ?>
 <style>
 #pedidos {
     & .contenido {
@@ -17,12 +18,11 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ ?>
         margin:2px 0;
         transition: ease 1s;
         padding:10px 0;
-    }
-    & .pendientes__lista {    
         display:flex;
-        align-items: center;
         justify-content:space-around;
+        align-items: center;
     }
+    & .contenido a div {padding:0 10px;}
 }
 
 
@@ -49,10 +49,10 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ ?>
             <div id="contenido1" class="contenido">
             </div>
             <div id="contenido2" class="contenido">
-                <?=pedidos(1)?>
+                <?=pedidos(1,$pagina)?>
             </div>
             <div id="contenido3" class="contenido">
-                <?=pedidos(2)?>
+                <?=pedidos(2,$pagina)?>
             </div>
         </div>
     </div>
