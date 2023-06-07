@@ -3,8 +3,10 @@ session_start();
 include("../php/includes_user.php");
 include("../php/functions_admin.php");
 if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ 
-    $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1; 
+    $pagina_actual = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
+    $pagina = array("pagina" => $pagina_actual,"lista" => (isset($_GET['buscar'])) ? $_GET['buscar'] : 1);
     ?>
+
 <style>
 
 
@@ -29,7 +31,6 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
             <button id="pendientes">PENDIENTES</button>
             <button id="completos">COMPLETOS</button>
             <button id="cancelados">CANCELADOS</button>
-
             <div id="listado"></div>
         </div>
     </div>
@@ -41,11 +42,11 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
 $(document).ready(function() {
   var intervalID; // Variable para almacenar el ID del intervalo
   // Función para cargar el contenido cada 5 segundos
-  function cargarContenido(boton) {
+  function cargarContenido(boton,pagina,lista) {
     $.ajax({
       type: 'GET',
       url: './PEDIDOS/listado_pedidos.php',
-      data: { boton: boton },
+      data: { boton: boton, pagina: pagina, lista: lista },
       success: function(response) {
         $('#listado').html(response);
       }
@@ -61,15 +62,19 @@ $(document).ready(function() {
   }
   // Clic en el botón 1
   $('#pendientes').click(function() {
-    cargarContenido("pendientes"); // Carga el contenido inmediatamente
+    cargarContenido("pendientes",false,false); // Carga el contenido inmediatamente
     iniciarActualizacion(); // Inicia la actualización automática
   });
   // Clic en el botón 2 y botón 3
   $('#completos, #cancelados').click(function() {
+    var pagina = <?=$pagina['pagina']?>;
+    var lista = <?=$pagina['lista']?>;
     var botonID = $(this).attr('id');
     detenerActualizacion(); // Detiene la actualización automática
-    cargarContenido(botonID);
+    cargarContenido(botonID,pagina,lista);
   });
+
+  iniciarActualizacion()
 });
 
 </script>
