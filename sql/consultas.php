@@ -145,7 +145,7 @@ function paginacion($section_productos, $pagina_actual, $total_paginas,$palabra)
     echo "<div class='paginacion'>";
     echo ($pagina_actual > 1) ? "<a class='btn prev' href='$link_prev'><</a>" : "";
     for ($pagina = 1; $pagina <= $total_paginas; $pagina++) {
-      echo ($pagina_actual == $pagina) ? '<a class="activo" href="">' . $pagina . '</a>' : '<a href="'.$link.'pagina='.$pagina.'">' . $pagina . '</a>';
+      echo ($pagina_actual == $pagina) ? '<a class="activo" href="#">' . $pagina . '</a>' : '<a href="'.$link.'pagina='.$pagina.'">' . $pagina . '</a>';
     }
     echo ($pagina_actual < $total_paginas) ? "<a class='btn next' href='$link_next'>></a>" : "";
     echo '</div>';

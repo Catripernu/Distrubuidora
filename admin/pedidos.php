@@ -3,27 +3,10 @@ session_start();
 include("../php/includes_user.php");
 include("../php/functions_admin.php");
 if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ 
-    $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1; ?>
+    $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1; 
+    ?>
 <style>
-#pedidos {
-    & .contenido {
-        display: none;
-        padding:20px 0;
-        justify-content: center;
-        align-items: center;
-        flex-direction:column;
-    } 
-    & .contenido a {
-        width: 100%;
-        margin:2px 0;
-        transition: ease 1s;
-        padding:10px 0;
-        display:flex;
-        justify-content:space-around;
-        align-items: center;
-    }
-    & .contenido a div {padding:0 10px;}
-}
+
 
 
 .a_pendientes {background-color: orange}
@@ -43,47 +26,50 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
 <body>
     <div id="contenido">
         <div id="pedidos">
-            <button class="btn_default hover_sha_orange" onclick="mostrarContenido(1)">PENDIENTES</button>
-            <button class="btn_default hover_sha_green" onclick="mostrarContenido(2)">COMPLETOS</button>
-            <button class="btn_default hover_sha_red" onclick="mostrarContenido(3)">CANCELADOS</button>
-            <div id="contenido1" class="contenido">
-            </div>
-            <div id="contenido2" class="contenido">
-                <?=pedidos(1,$pagina)?>
-            </div>
-            <div id="contenido3" class="contenido">
-                <?=pedidos(2,$pagina)?>
-            </div>
+            <button id="pendientes">PENDIENTES</button>
+            <button id="completos">COMPLETOS</button>
+            <button id="cancelados">CANCELADOS</button>
+
+            <div id="listado"></div>
         </div>
     </div>
 </body>
 </html>
-<?php } else {header("location: ../index.php");} ?>
+<?php } else {header("location: ../index.php");}?>
 
 <script>
-// Mostrar el contenido del Botón 1 al cargar la página
-window.onload = function() {
-    mostrarContenido(1);
-    pendientes();
-};
-function mostrarContenido(numero) {
-    // Ocultar todos los divs
-    var divs = document.getElementsByClassName('contenido');
-    for (var i = 0; i < divs.length; i++) {
-        divs[i].style.display = 'none';
-    }
-    // Mostrar el div correspondiente al botón seleccionado
-    var contenido = document.getElementById('contenido' + numero);
-    contenido.style.display = 'flex';
-}
-function pendientes(){
+$(document).ready(function() {
+  var intervalID; // Variable para almacenar el ID del intervalo
+  // Función para cargar el contenido cada 5 segundos
+  function cargarContenido(boton) {
     $.ajax({
-        url: "./PEDIDOS/obtener_pendientes.php", // Ruta al archivo PHP que contiene la función obtenerRegistrosEnTiempoReal()
-        type: "GET",
-        success: function(response) {
-            $("#contenido1").html(response); // Muestra los registros en un elemento con el ID "registros"
-        }
+      type: 'GET',
+      url: './PEDIDOS/listado_pedidos.php',
+      data: { boton: boton },
+      success: function(response) {
+        $('#listado').html(response);
+      }
     });
-}   
-setInterval(pendientes, 5000);
+  }
+  // Función para iniciar la actualización automática cada 5 segundos
+  function iniciarActualizacion() {
+    intervalID = setInterval(function() {cargarContenido("pendientes");}, 2000);
+  }
+  // Función para detener la actualización automática
+  function detenerActualizacion() {
+    clearInterval(intervalID);
+  }
+  // Clic en el botón 1
+  $('#pendientes').click(function() {
+    cargarContenido("pendientes"); // Carga el contenido inmediatamente
+    iniciarActualizacion(); // Inicia la actualización automática
+  });
+  // Clic en el botón 2 y botón 3
+  $('#completos, #cancelados').click(function() {
+    var botonID = $(this).attr('id');
+    detenerActualizacion(); // Detiene la actualización automática
+    cargarContenido(botonID);
+  });
+});
+
 </script>

@@ -1,19 +1,14 @@
 <?php 
 // PEDIDOS.php
-function pedidos($estado,$pagina){
-    
-
+function pedidos($estado,$pagina){  
     $res = resultados_paginacion(1, $pagina, "ventascliente", "estado = '$estado' ORDER BY fecha desc");
-	$num_paginas = ceil($res['total_elementos']->rowCount() / 1);
+	$num_paginas = ceil($res['total_elementos']->rowCount() / 1); 
     
     foreach($res['elementos'] as $row){
         echo "Nombre: ".$row['id_usuario']." Total: ".$row['total']."<br>";
     }
-
-    paginacion(false,$pagina,$num_paginas,false);   
- 
+    paginacion(false,$pagina,$num_paginas,($estado+1));
 }
-
 function cliente($id,$id_venta){
     if($id){
         $dato_vendedor = user($id)->fetch(PDO::FETCH_ASSOC);
