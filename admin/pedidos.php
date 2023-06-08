@@ -4,11 +4,30 @@ include("../php/includes_user.php");
 include("../php/functions_admin.php");
 if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ 
     $pagina_actual = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-    $pagina = array("pagina" => $pagina_actual,"lista" => (isset($_GET['buscar'])) ? $_GET['buscar'] : 1);
-    ?>
+    $pagina = array("pagina" => $pagina_actual,
+                    "lista" => (isset($_GET['buscar'])) ? $_GET['buscar'] : 0,
+                    "tipo" => ($_GET['buscar'] == 1) ? "completos" : "cancelados");
+  
+  $prueba = '<div class="aviso"></div>';
+  if($prueba){
+    echo $prueba;
+  }
+?>
+<script>
 
+</script>
 <style>
-
+.listado_pedidos {margin:20px 0}
+.listado_pedidos a {
+        width: 100%;
+        margin:2px 0;
+        transition: ease 1s;
+        padding:10px 0;
+        display:flex;
+        justify-content:space-around;
+        align-items: center;
+    }
+.listado_pedidos a div {padding:0 10px;}
 
 
 .a_pendientes {background-color: orange}
@@ -28,10 +47,10 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
 <body>
     <div id="contenido">
         <div id="pedidos">
-            <button id="pendientes">PENDIENTES</button>
-            <button id="completos">COMPLETOS</button>
-            <button id="cancelados">CANCELADOS</button>
-            <div id="listado"></div>
+          <button id="pendientes">PENDIENTES</button>
+          <button id="completos">COMPLETOS</button>
+          <button id="cancelados">CANCELADOS</button>
+          <div id="listado"></div>
         </div>
     </div>
 </body>
@@ -39,7 +58,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
 <?php } else {header("location: ../index.php");}?>
 
 <script>
-$(document).ready(function() {
+ 
   var intervalID; // Variable para almacenar el ID del intervalo
   // Función para cargar el contenido cada 5 segundos
   function cargarContenido(boton,pagina,lista) {
@@ -60,21 +79,20 @@ $(document).ready(function() {
   function detenerActualizacion() {
     clearInterval(intervalID);
   }
-  // Clic en el botón 1
-  $('#pendientes').click(function() {
-    cargarContenido("pendientes",false,false); // Carga el contenido inmediatamente
-    iniciarActualizacion(); // Inicia la actualización automática
-  });
-  // Clic en el botón 2 y botón 3
-  $('#completos, #cancelados').click(function() {
-    var pagina = <?=$pagina['pagina']?>;
-    var lista = <?=$pagina['lista']?>;
+  $(document).ready(function() { 
+  $('#pendientes,#completos,#cancelados').click(function(){
+    var load = 0
+    $('.aviso').html("boton");
     var botonID = $(this).attr('id');
-    detenerActualizacion(); // Detiene la actualización automática
-    cargarContenido(botonID,pagina,lista);
-  });
-
-  iniciarActualizacion()
+    var array = [botonID,<?=$pagina['pagina']?>,<?=$pagina['lista']?>]
+    if(array[0] == "pendientes"){
+      cargarContenido("pendientes",false,false)
+      iniciarActualizacion()
+    } else {
+      detenerActualizacion()
+      cargarContenido(array[0],array[1],array[2])
+    }
+  })  
 });
 
 </script>
