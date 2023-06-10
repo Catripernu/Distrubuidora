@@ -3,10 +3,7 @@ session_start();
 include("../php/includes_user.php");
 include("../php/functions_admin.php");
 if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ 
-    $pagina_actual = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
-    $pagina = array("pagina" => $pagina_actual,
-                    "lista" => (isset($_GET['buscar'])) ? $_GET['buscar'] : 0,
-                    "tipo" => ($_GET['buscar'] == 1) ? "completos" : "cancelados");
+    $lista = (isset($_GET['lista']) ? $_GET['lista'] : "pendientes");
 ?>
 <style>
 .hover_sha_orange:hover{box-shadow: 0 0 5px orange}
@@ -14,7 +11,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
 .hover_sha_red:hover{box-shadow: 0 0 5px red}
 #pedidos {
   padding:10px 0;
-  & a {
+  & .pedidos__btn_opciones {
     margin-bottom:10px;
     display:inline-block;
     color:black;
@@ -25,19 +22,31 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
     cursor: pointer;
     transition: ease 1s all;
   }
-  & a:hover {
+  & .pedidos__btn_opciones:hover {
     background: #e5e5e5;
   }
+  & .listado_pedidos a {
+        width: 100%;
+        margin:2px 0;
+        transition: ease 1s;
+        padding:10px 0;
+        display:flex;
+        justify-content:space-around;
+        align-items: center;
+    }
+    & .listado_pedidos a div {padding:0 10px;}
 }
+.a_pendientes {background-color: orange}
+.a_pendientes:hover {background: orangered}
 </style>
 <body>
     <div id="contenido">
         <div id="pedidos">
-          <a class="hover_sha_orange" href="?lista=pendientes">PENDIENTES</a>
-          <a class="hover_sha_green" href="?lista=completos">COMPLETOS</a>
-          <a class="hover_sha_red" href="?lista=cancelados">CANCELADOS</a>
+          <a class="pedidos__btn_opciones hover_sha_orange" href="?lista=pendientes">PENDIENTES</a>
+          <a class="pedidos__btn_opciones hover_sha_green" href="?lista=completos">COMPLETOS</a>
+          <a class="pedidos__btn_opciones hover_sha_red" href="?lista=cancelados">CANCELADOS</a>
           <div id="listado">
-          <?=mostrarLista((isset($_GET['lista']) ? $_GET['lista'] : "pendientes"))?>
+          <?=mostrarLista()?>
           </div>
         </div>
     </div>
@@ -46,24 +55,18 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
 <?php } else {header("location: ../index.php");}?>
 
 <!-- JS PARA ACTULIZAR EL LISTADO DE PENDIENTES -->
-<?php if(!isset($_GET['lista']) || $_GET['lista'] == "pendientes"){ ?> 
+<?php if($lista == "pendientes"){ ?> 
 <script>
 setInterval(function() {
     $("#listado").load("./PEDIDOS/listado.php?lista=pendientes");
-},3000);
+},1000);
 </script>
 <?php } ?>
 
 
 <?php
-function mostrarLista($lista){
-  switch($lista){
-    case "pendientes": include("./PEDIDOS/listado.php");
-    break;
-    case "completos": include("./PEDIDOS/listado.php");
-    break; 
-    case "cancelados": include("./PEDIDOS/listado.php");
-  }
+function mostrarLista(){
+  include("./PEDIDOS/listado.php");
 }
 
 ?>

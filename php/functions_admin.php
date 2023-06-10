@@ -23,4 +23,7 @@ function cliente($id,$id_venta){
         return $datos['nombre']." ".$datos['apellido']." (VISITA)";
     }
 }
+function user($id){
+    return $consulta = $GLOBALS['conexion']->query("SELECT * FROM users WHERE id = '$id'");
+}
 ?>

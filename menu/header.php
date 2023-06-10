@@ -38,7 +38,7 @@ $gastoTotal = (isset($_SESSION['gastoTotal'])) ? "Total: $".$_SESSION['gastoTota
     <li><a href="<?=$url_site?>user/ofertas.php"><i class="fa fa-tags fa-lg fa-fw"></i><p>OFERTAS</p></a></li>
     <?php } 
     if($_SESSION['rol'] == 1) {?>
-    <li><a href="<?=$url_site?>admin/pedidos.php"><i class="fa fa-shipping-fast fa-lg fa-fw"></i><p>PEDIDOS</p></a></li>
+    <li><a href="<?=$url_site?>admin/pedidos.php?lista=pendientes"><i class="fa fa-shipping-fast fa-lg fa-fw"></i><p>PEDIDOS</p></a></li>
     <li><a href="<?=$url_site?>index.php"><i class="fa fa-file-invoice-dollar fa-lg fa-fw"></i><p>TICKETS</p></a></li>
     <li><a href="<?=$url_site?>index.php"><i class="fa fa-user-tie fa-lg fa-fw"></i><p>VENDEDORES</p></a></li>
     <li><a href="<?=$url_site?>index.php"><i class="fa fa-th-list fa-lg fa-fw"></i><p>AGENDA</p></a></li>
