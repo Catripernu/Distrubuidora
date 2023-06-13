@@ -21,7 +21,7 @@ function obtenerListado($lista,$pagina,$r_paginas){
         }
     } else {
         $get = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : "";
-        $estado = ($lista == "completos") ? "estado = 1" : "estado = 2";
+        $estado = ($lista == "completos") ? "estado = 1  ORDER BY fecha DESC" : "estado = 2 ORDER BY fecha DESC";
         $res = resultados_paginacion($r_paginas, $pagina, "ventascliente", $estado);
         $num_paginas = ceil($res['total_elementos']->rowCount() / $r_paginas);
         // LISTADO DE VENTAS COMPLETAS REALIZADAS
