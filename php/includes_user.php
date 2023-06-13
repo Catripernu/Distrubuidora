@@ -5,6 +5,7 @@ include_once('../admin/datosRelevantes.php');
 include_once('../sql/consultas.php');
 include_once('../php/funtions_views.php');
 setlocale(LC_MONETARY, 'en_US.UTF-8');
+$get = (isset($_SERVER['QUERY_STRING'])) ? $_SERVER['QUERY_STRING'] : "";
 ?>
 <!DOCTYPE html>
 <html>

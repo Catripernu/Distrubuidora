@@ -21,7 +21,7 @@ $palabra = (isset($_GET['buscar'])) ? $_GET['buscar'] : "";
           $precio = ($datos['oferta'] && isset($_SESSION['loggedin'])) ? $datos['precio_o'] : $datos['precio_v'];
           echo view_productos($id, $nombre, formato_precio($precio),productos__opciones($_SESSION['rol'],$nombre,$id));
         }
-        paginacion(0,$pagina_actual,$resultados['num_paginas'],$palabra);
+        paginacion_v2($pagina_actual,$resultados['num_paginas'],$get);
       } else { 
         $error = "<b>ERROR</b>: PRODUCTO NO ENCONTRADO O INEXISTENTE.";
         $conexion->query("INSERT INTO palabrasBuscadas(palabra) values ('$palabra')");

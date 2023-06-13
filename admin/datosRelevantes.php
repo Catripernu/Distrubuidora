@@ -18,6 +18,7 @@ $resultados_por_pagina = 10;
 $compras_resultados_por_pagina = 10;
 $ventas_resultados_por_pagina = 10;
 $agenda_resultados_por_pagina = 10;
+$pedidos_resultado_por_pagina = 1;
 $maximo_stock = 15;
 
 

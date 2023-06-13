@@ -1,5 +1,4 @@
-<?php include_once("head.php"); ?>
-<?php 
+<?php include_once("head.php");
 $id = (isset($_GET['section'])) ? $_GET['section'] : 0;
 //SELECCIONAMOS COLOR DE LA CATEGORIA ELEGIDA
 if($_GET['section']){
@@ -51,7 +50,8 @@ if (isset($_GET['section'])) {
         }
         echo view_productos($id, $nombre, formato_precio($precio), $opciones);
       }
-      paginacion($section,$pagina_actual,$resultados_paginados['num_paginas'],false);
+      // paginacion($section,$pagina_actual,$resultados_paginados['num_paginas'],false);
+      paginacion_v2($pagina_actual,$resultados_paginados['num_paginas'],$get);
     } else {
       echo "<b class='msg_error'>ERROR:</b> NO SE ENCONTRARON PRODUCTOS.";
       header("Refresh: 4; url=".$url_site."productos.php");

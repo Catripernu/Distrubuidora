@@ -23,7 +23,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 0){
 					</div>
 				<?php }
 				echo '</div>';
-				paginacion(false,$pagina,$num_paginas,false);
+				paginacion_v2($pagina,$num_paginas,$get);
 			} else {
 				compras_detalles($_GET['compra']); ?>
 				<input class="btn_atras btn_morado" onclick="history.back()" type="button" value="VOLVER ATRAS">

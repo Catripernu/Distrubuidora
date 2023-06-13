@@ -4,6 +4,15 @@ include("../php/includes_user.php");
 include("../php/functions_admin.php");
 if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){ 
     $lista = (isset($_GET['lista']) ? $_GET['lista'] : "pendientes");
+    if(isset($_GET['buscar'])){
+      $buscar = $_GET['buscar'];
+      if($buscar == "completos"){
+
+        echo "completos";
+      } else if ($buscar == "cancelados") {
+        echo "cancelados";
+      }
+    }
 ?>
 <style>
 .hover_sha_orange:hover{box-shadow: 0 0 5px orange}
@@ -37,7 +46,11 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
     & .listado_pedidos a div {padding:0 10px;}
 }
 .a_pendientes {background-color: orange}
+.a_completos {background-color: green}
+.a_cancelados {background-color: red}
 .a_pendientes:hover {background: orangered}
+.a_completos:hover {background-color: #00e600}
+.a_cancelados:hover {background-color: #990000}
 </style>
 <body>
     <div id="contenido">
@@ -45,8 +58,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
           <a class="pedidos__btn_opciones hover_sha_orange" href="?lista=pendientes">PENDIENTES</a>
           <a class="pedidos__btn_opciones hover_sha_green" href="?lista=completos">COMPLETOS</a>
           <a class="pedidos__btn_opciones hover_sha_red" href="?lista=cancelados">CANCELADOS</a>
-          <div id="listado">
-          <?=mostrarLista()?>
+          <div id="listado"><?=mostrarLista()?>
           </div>
         </div>
     </div>
@@ -59,7 +71,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 1){
 <script>
 setInterval(function() {
     $("#listado").load("./PEDIDOS/listado.php?lista=pendientes");
-},1000);
+},10000);
 </script>
 <?php } ?>
 

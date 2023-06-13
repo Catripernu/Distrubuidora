@@ -3,10 +3,14 @@ include_once("../php/functions_agenda.php");
 if(isset($_SESSION['loggedin']) && ($_SESSION['rol'] == 2 || $_SESSION['rol'] == 1)){
 	$id = $_SESSION['id'];
 	$link_buscador = "";
-	if(isset($_POST['buscar']) && !empty($_POST['buscar'])){
-		$cliente = $_POST['buscar'];
-		$buscador = "AND (nombre_agenda LIKE '%$cliente%' OR apellido_agenda LIKE '%$cliente%') ORDER BY id_agenda DESC";
-		$link_buscador = "?cliente=$cliente";
+	if(isset($_GET['cliente'])){
+		if(!empty($_GET['cliente'])){
+			$cliente = $_GET['cliente'];
+			$buscador = "AND (nombre_agenda LIKE '%$cliente%' OR apellido_agenda LIKE '%$cliente%') ORDER BY id_agenda DESC";
+			$link_buscador = "?cliente=$cliente";
+		} else {
+			header("Location:agenda.php");
+		}	
 	}
 	if($_POST['add_cliente']){
 		$msj_opc = add_cliente($id);
@@ -28,8 +32,8 @@ if(isset($_SESSION['loggedin']) && ($_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 	?>
 	<div class='filtro_fecha'>
 		<div>
-			<form action="#" method="post">
-				<input class="input_buscar" type="text" name="buscar" placeholder="Cliente a buscar..">
+			<form action="#" method="get">
+				<input class="input_buscar" type="text" name="cliente" placeholder="Cliente a buscar..">
 			</form>
 		</div>
 		<div class="btn_opciones">
@@ -84,7 +88,7 @@ if(isset($_SESSION['loggedin']) && ($_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 	} else {
 		echo "<p><b class='rojo'>SIN CLIENTES REGISTRADOS</b></p>";
 	}
-	paginacion(false,$pagina,$num_paginas,false);
+	paginacion_v2($pagina,$num_paginas,$get);
     ?>
 </div>
 

@@ -51,7 +51,7 @@ if(isset($_SESSION['loggedin']) && $_SESSION['rol'] == 2){
 	} else {
 		echo "<p><b class='rojo'>SIN VENTAS</b></p>";
 	}
-	paginacion(false,$pagina,$num_paginas,false);
+	paginacion_v2($pagina,$num_paginas,$get);
 	} else {
 		detalles_venta($_GET['venta'],$_SESSION['id']);
 		echo '<p><input class="btn_atras btn_morado" onclick="history.back()" type="button" value="VOLVER ATRAS"></p>';	

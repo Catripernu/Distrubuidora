@@ -125,29 +125,42 @@ function resultados_paginacion($resultados_por_pagina, $pagina_actual, $tabla, $
   return array( "elementos" => $resultados,
                 "total_elementos" => $total_elementos);
 }
-function paginacion($section_productos, $pagina_actual, $total_paginas,$palabra){
-    // VERIFICAMOS SI ES DE PRODUCTOS.PHP
-    if($section_productos){
-      $link_prev = "?section=".$section_productos."&inicio&pagina=".($pagina_actual-1);
-      $link_next = "?section=".$section_productos."&inicio&pagina=".($pagina_actual+1);
-      $link = "?section=$section_productos&inicio&";
-    } else {
-      if($palabra){
-      $link_prev = "?buscar=$palabra&pagina=".($pagina_actual-1);
-      $link_next = "?buscar=$palabra&pagina=".($pagina_actual+1);
-      $link = "?buscar=$palabra&";
-      } else {
-        $link_prev = "?pagina=".($pagina_actual-1);
-        $link_next = "?pagina=".($pagina_actual+1);
-        $link = "?";
-      }
-    }
+// function paginacion($section_productos, $pagina_actual, $total_paginas,$palabra){
+//     // VERIFICAMOS SI ES DE PRODUCTOS.PHP
+//     if($section_productos){
+//       $link_prev = "?section=".$section_productos."&inicio&pagina=".($pagina_actual-1);
+//       $link_next = "?section=".$section_productos."&inicio&pagina=".($pagina_actual+1);
+//       $link = "?section=$section_productos&inicio&";
+//     } else {
+//       if($palabra){
+//       $link_prev = "?buscar=$palabra&pagina=".($pagina_actual-1);
+//       $link_next = "?buscar=$palabra&pagina=".($pagina_actual+1);
+//       $link = "?buscar=$palabra&";
+//       } else {
+//         $link_prev = "?pagina=".($pagina_actual-1);
+//         $link_next = "?pagina=".($pagina_actual+1);
+//         $link = "?";
+//       }
+//     }
+//     echo "<div class='paginacion'>";
+//     echo ($pagina_actual > 1) ? "<a class='btn prev' href='$link_prev'><</a>" : "";
+//     for ($pagina = 1; $pagina <= $total_paginas; $pagina++) {
+//       echo ($pagina_actual == $pagina) ? '<a class="activo" href="#">' . $pagina . '</a>' : '<a href="'.$link.'pagina='.$pagina.'">' . $pagina . '</a>';
+//     }
+//     echo ($pagina_actual < $total_paginas) ? "<a class='btn next' href='$link_next'>></a>" : "";
+//     echo '</div>';
+//   }
+  function paginacion_v2($pagina_actual, $total_paginas, $get){  
+    parse_str($get, $params);
+    $params['pagina'] = '';
+    $queryStringActualizada = http_build_query($params);
+    $urlActualizada = $_SERVER['PHP_SELF'] . '?' . $queryStringActualizada;
     echo "<div class='paginacion'>";
-    echo ($pagina_actual > 1) ? "<a class='btn prev' href='$link_prev'><</a>" : "";
+    echo ($pagina_actual > 1) ? "<a class='btn prev' href='".$urlActualizada.($pagina_actual-1)."'><</a>" : "";
     for ($pagina = 1; $pagina <= $total_paginas; $pagina++) {
-      echo ($pagina_actual == $pagina) ? '<a class="activo" href="#">' . $pagina . '</a>' : '<a href="'.$link.'pagina='.$pagina.'">' . $pagina . '</a>';
+      echo ($pagina_actual == $pagina) ? '<a class="activo" href="#">' . $pagina . '</a>' : '<a href="'.$urlActualizada.$pagina.'">' . $pagina . '</a>';
     }
-    echo ($pagina_actual < $total_paginas) ? "<a class='btn next' href='$link_next'>></a>" : "";
+    echo ($pagina_actual < $total_paginas) ? "<a class='btn next' href='".$urlActualizada.($pagina_actual+1)."'>></a>" : "";
     echo '</div>';
   }
 
